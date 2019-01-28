@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <v-test></v-test>
+    <v-test ref="test"></v-test>
     <input type="text" ref="aaa" v-model="msg">
     <button @click="getMsg()">按钮</button>
     <button @click="getref()">按钮</button>
@@ -20,11 +20,23 @@ export default {
   },
   methods: {
     getMsg() {
-      alert(this.msg);
+      //获取子组件值
+      alert(this.$refs.test.msg);
     },
     getref() {
       alert(this.$refs.aaa.value);
+      //vue-resource传值
+      this.$http.get(this.$apiUrl).then(
+        response => {
+            console.log(response);
+        },
+        response => {
+          console.log("出错了");
+        })
     }
+  },
+  mounted(){
+     console.log("================>"+this.$route.params.id);
   },
   components: {
     "v-test": Test
