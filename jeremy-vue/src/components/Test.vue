@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     boss() {
-    
+      alert(this.$parent.$parent.msg);
       this.$router.push({ name: "HelloWorld", params: this.params });
     }
   },
