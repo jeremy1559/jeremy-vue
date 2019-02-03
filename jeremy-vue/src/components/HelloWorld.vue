@@ -1,10 +1,18 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <v-test ref="test"></v-test>
-    <input type="text" ref="aaa" v-model="msg">
-    <button @click="getMsg()">按钮</button>
-    <button @click="getref()">按钮</button>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-card class="box-card">
+          <h1>{{ msg }}</h1>
+        </el-card>
+      </el-col>
+      <v-test ref="test" :message="msg"></v-test>
+      <el-col :span="6">
+        <el-input ref="aaa" v-model="msg" placeholder="请输入内容"></el-input>
+      </el-col>
+    </el-row>
+    <el-button type="primary" round @click="getMsg()">按钮</el-button>
+    <el-button type="primary" round @click="getref()">按钮</el-button>
   </div>
 </template>
 
@@ -28,15 +36,16 @@ export default {
       //vue-resource传值
       this.$http.get(this.$apiUrl).then(
         response => {
-            console.log(response);
+          console.log(response);
         },
         response => {
           console.log("出错了");
-        })
+        }
+      );
     }
   },
-  mounted(){
-     console.log("================>"+this.$route.params.id);
+  mounted() {
+    console.log("================>" + this.$route.params.id);
   },
   components: {
     "v-test": Test
