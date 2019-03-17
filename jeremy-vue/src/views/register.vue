@@ -31,7 +31,6 @@
                     <el-input type="text" v-model="registerUser.email" placeholder="请输入邮箱"></el-input>
                   </el-form-item>
                   <el-form-item>
-                    <el-button type="danger" icon="el-icon-delete" circle></el-button>
                     <el-button class="submit_btn" type="primary" @click="submitForm('registerForm')">注册</el-button>
                   </el-form-item>
                 </el-form>
