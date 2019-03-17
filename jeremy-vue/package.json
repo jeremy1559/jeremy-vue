@@ -2,7 +2,7 @@
   "name": "jeremy-vue",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "jeremy <jeremy_jin@huatek.com>",
+  "author": "jeremy",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -15,7 +15,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "element-ui": "^2.5.4",
+    "element-ui": "^2.6.1",
+    "file-loader": "^1.1.11",
+    "url-loader": "^0.5.9",
     "vue": "^2.5.2",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1"
