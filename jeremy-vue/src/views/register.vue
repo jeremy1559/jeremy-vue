@@ -64,17 +64,17 @@ export default {
 
     //手机号校验
     var checkPhone = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('手机号不能为空'));
+      if (!value) {
+        return callback(new Error("手机号不能为空"));
+      } else {
+        const reg = /^1[1|2|3|4|5|7|8|9][0-9]\d{8}$/;
+        if (reg.test(value)) {
+          callback();
         } else {
-          const reg = /^1[1|2|3|4|5|7|8|9][0-9]\d{8}$/
-          if (reg.test(value)) {
-            callback();
-          } else {
-            return callback(new Error('请输入正确的手机号'));
-          }
+          return callback(new Error("请输入正确的手机号"));
         }
-      };
+      }
+    };
 
     //数字校验
     var checkNumber = (rule, value, callback) => {
@@ -102,74 +102,14 @@ export default {
 
     //身份证号校验
     var checkIdCard = (rule, value, callback) => {
-      let regEn = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-      if (!regEn.test(value)) {
-        callback(new Error("请输入正确身份证"));
+      if (
+        value &&
+        (!/\d{17}[\d|x]|\d{15}/.test(value) ||
+          (value.length !== 15 && value.length !== 18))
+      ) {
+        callback(new Error("身份证号码不符合规范"));
       } else {
-        // 校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10
-        // 下面分别分析出生日期和校验位
-        let num = value.toUpperCase();
-        let len, re;
-        len = num.length;
-        if (len === 15) {
-          re = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/);
-          let arrSplit = num.match(re); // 检查生日日期是否正确
-          let dtmBirth = new Date(
-            "19" + arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]
-          );
-          let bGoodDay;
-          bGoodDay =
-            dtmBirth.getYear() === Number(arrSplit[2]) &&
-            dtmBirth.getMonth() + 1 === Number(arrSplit[3]) &&
-            dtmBirth.getDate() === Number(arrSplit[4]);
-          if (!bGoodDay) {
-            callback(new Error("请输入正确身份证"));
-          } else {
-            // 将15位身份证转成18位 //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10
-            let arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-            let arrCh = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
-            var nTemp = 0,
-              i;
-            num = num.substr(0, 6) + "19" + num.substr(6, num.length - 6);
-            for (i = 0; i < 17; i++) {
-              nTemp += num.substr(i, 1) * arrInt[i];
-            }
-            num += arrCh[nTemp % 11];
-            callback();
-          }
-        }
-        if (len === 18) {
-          re = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/);
-          let arrSplit = num.match(re); // 检查生日日期是否正确
-          let dtmBirth = new Date(
-            arrSplit[2] + "/" + arrSplit[3] + "/" + arrSplit[4]
-          );
-          let bGoodDay;
-          bGoodDay =
-            dtmBirth.getFullYear() === Number(arrSplit[2]) &&
-            dtmBirth.getMonth() + 1 === Number(arrSplit[3]) &&
-            dtmBirth.getDate() === Number(arrSplit[4]);
-          if (!bGoodDay) {
-            callback(new Error("请输入正确身份证"));
-          } else {
-            // 检验18位身份证的校验码是否正确。 //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10
-            let valnum;
-            let arrInt = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
-            let arrCh = ["1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"];
-            var nTemp = 0,
-              i;
-            for (i = 0; i < 17; i++) {
-              nTemp += num.substr(i, 1) * arrInt[i];
-            }
-            valnum = arrCh[nTemp % 11];
-            if (!isNaN(num.substr(17, 1))) {
-              callback();
-            }
-            if (valnum !== num.substr(17, 1)) {
-              callback(new Error("请输入正确身份证"));
-            }
-          }
-        }
+        callback();
       }
     };
 
@@ -231,9 +171,7 @@ export default {
           console.log("error submit!!");
           return false;
         }
-       console.log(this.registerUser);
-      
-
+        console.log(this.registerUser);
       });
     }
   }
