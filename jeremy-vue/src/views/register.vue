@@ -10,8 +10,8 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="用户名" prop="name">
-          <el-input type="text" v-model="registerUser.name" placeholder="请输入用户名"></el-input>
+        <el-form-item label="用户名" prop="userName">
+          <el-input type="text" v-model="registerUser.userName" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="账号" prop="account">
           <el-input type="text" v-model="registerUser.account" placeholder="请输入账号"></el-input>
@@ -31,11 +31,11 @@
         <el-form-item label="联系电话" prop="phone">
           <el-input type="text" v-model="registerUser.phone" placeholder="请输入联系电话"></el-input>
         </el-form-item>
-        <el-form-item label="身份证号" prop="idcard">
-          <el-input type="text" v-model="registerUser.idcard" placeholder="请输入身份证号"></el-input>
+        <el-form-item label="身份证号" prop="idCard">
+          <el-input type="text" v-model="registerUser.idCard" placeholder="请输入身份证号"></el-input>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
-          <el-input type="text" v-model="registerUser.email" placeholder="请输入邮箱"></el-input>
+        <el-form-item label="邮箱" prop="eMail">
+          <el-input type="text" v-model="registerUser.eMail" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button class="submit_btn" type="primary" @click="submitForm('registerForm')">注册</el-button>
@@ -115,17 +115,17 @@ export default {
 
     return {
       registerUser: {
-        name: "",
+        userName: "",
         account: "",
         password: "",
         checkpassword: "",
         sex: "",
         phone: "",
-        idcard: "",
-        email: ""
+        idCard: "",
+        eMail: ""
       },
       rules: {
-        name: [
+        userName: [
           { required: true, message: "请输入用户姓名", trigger: "blur" },
           { min: 2, max: 10, message: "长度2-10个字符", trigger: "blur" }
         ],
@@ -149,11 +149,11 @@ export default {
             trigger: "blur"
           }
         ],
-        idcard: [
+        idCard: [
           { required: true, message: "请输入身份证号", trigger: "blur" },
           { validator: checkIdCard, trigger: "blur" }
         ],
-        email: [
+        eMail: [
           {
             type: "email",
             required: true,
@@ -168,10 +168,16 @@ export default {
     submitForm(fromName) {
       this.$refs[fromName].validate(valid => {
         if (!valid) {
-          console.log("error submit!!");
           return false;
         }
-        console.log(this.registerUser);
+        this.$axios
+          .post("/api/authorization/registerUser", this.registerUser)
+          .then(response => {
+            this.$router.push("/login");
+          })
+          .catch(error => {
+            console.log(error);
+          });
       });
     }
   }

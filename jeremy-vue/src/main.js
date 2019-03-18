@@ -7,6 +7,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入资源请求插件
 import VueResource from 'vue-resource'
+import axios from './utils/http.js'
 
 import router from './router'
 import App from './App'
@@ -16,6 +17,8 @@ import App from './App'
 Vue.use(VueResource)
 //使用UI组件
 Vue.use(ElementUI);
+
+Vue.prototype.$axios=axios;
 
 /* 新建了一个实例*/
 new Vue({
