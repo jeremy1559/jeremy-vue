@@ -1,14 +1,16 @@
 <template>
   <div class="register">
-    <div class="manage_tip form_container">
-      <span class="manage_tip">用户注册</span>
+    <section class="form_container">
+       <div class="manage_tip">
+        <span class="title">用户注册</span>
+      </div>
       <el-form
         :model="registerUser"
         :rules="rules"
         status-icon
         ref="registerForm"
         label-width="100px"
-        class="demo-ruleForm"
+        class="registerForm"
       >
         <el-form-item label="用户名" prop="userName">
           <el-input type="text" v-model="registerUser.userName" placeholder="请输入用户名"></el-input>
@@ -40,8 +42,13 @@
         <el-form-item>
           <el-button class="submit_btn" type="primary" @click="submitForm('registerForm')">注册</el-button>
         </el-form-item>
+        <div class="tiparea">
+          <p>
+            <router-link to="/login">返回登陆页</router-link>
+          </p>
+        </div>
       </el-form>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -165,18 +172,29 @@ export default {
     };
   },
   methods: {
-    submitForm(fromName) {
-      this.$refs[fromName].validate(valid => {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
         if (!valid) {
           return false;
         }
         this.$axios
           .post("/api/authorization/registerUser", this.registerUser)
           .then(response => {
-            this.$router.push("/login");
+            if (response.data.status == "0000") {
+              this.$message({
+                message: "注册成功！",
+                type: "success"
+              });
+              this.$router.push("/login");
+            } else {
+              this.$message({
+                message: response.data.msg,
+                type: "warning"
+              });
+            }
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
           });
       });
     }
@@ -196,21 +214,17 @@ export default {
   width: 370px;
   height: 210px;
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: 34%;
   padding: 25px;
   border-radius: 5px;
   text-align: center;
 }
-.form_container .manage_tip {
+.form_container .manage_tip .title {
   font-family: "Microsoft YaHei";
   font-weight: bold;
   font-size: 26px;
   color: #fff;
-}
-.title {
-  font-size: 40px;
-  color: #cccc;
 }
 .registerForm {
   margin-top: 20px;
@@ -222,6 +236,14 @@ export default {
 
 .submit_btn {
   width: 100%;
+}
+.tiparea {
+  text-align: right;
+  font-size: 12px;
+  color: #333;
+}
+.tiparea p a {
+  color: #409eff;
 }
 </style>
 

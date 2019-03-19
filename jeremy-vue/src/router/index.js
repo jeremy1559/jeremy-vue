@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import index from '../views/index.vue'
 import nofind from '../views/404.vue'
 import register from '../views/register.vue'
+import login from '../views/login.vue'
 
 
 Vue.use(Router)
@@ -21,6 +22,10 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: register
+    },{
+      path: '/login',
+      name: 'login',
+      component: login
     },{
       path: '*',
       name: 'nofind',

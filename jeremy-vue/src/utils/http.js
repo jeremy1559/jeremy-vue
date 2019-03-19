@@ -6,7 +6,7 @@ function startLoding() {
     loading = Loading.service({
         lock: true,
         text: "拼命加载中...",
-        background: 'rgba(0,0,0,0,7)'
+        background: 'rgba(0,0,0,0,0)'
 
     });
 }
@@ -30,6 +30,7 @@ axios.interceptors.request.use(config => {
 /****** respone拦截器==>对响应做处理 ******/
 axios.interceptors.response.use(response => {
     endLoding();
+    return response;
 }, error => {
     endLoding();
     return Promise.reject(error)
