@@ -23,7 +23,7 @@ axios.interceptors.request.use(config => {
     return config;
 }, error => {
     endLoding();
-    Promise.reject(error);
+    return error;
 });
 
 
@@ -33,7 +33,7 @@ axios.interceptors.response.use(response => {
     return response;
 }, error => {
     endLoding();
-    return Promise.reject(error)
+    return error;
 });
 
 export default axios;

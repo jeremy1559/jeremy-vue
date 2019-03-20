@@ -4,41 +4,73 @@
       <div class="manage_tip">
         <span class="title">登陆系统</span>
       </div>
-      <el-form
-        :model="loginUser"
-        :rules="rules"
-        ref="loginForm"
-        class="loginForm"
-        label-width="100px"
-      >
-        <el-form-item label="账号" prop="account">
-          <el-input v-model="loginUser.account" placeholder="请输入账号"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="loginUser.password" placeholder="请输入密码" type="password"></el-input>
-        </el-form-item>
-        <el-form-item label="验证码" prop="imagecode">
-          <el-col :span="16">
-            <el-input v-model="loginUser.imagecode" placeholder="请输入密码" type="password"></el-input>
-          </el-col>
-          <el-col :span="6">
-            <img
-              :src="imagecodeSrc"
-              class="img"
-              style="width:200%;heigth:200%"
-              @click="getImageCode"
-            >
-          </el-col>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
-        </el-form-item>
-        <div class="tiparea">
-          <p>还没有账号？现在
-            <router-link to="/register">去注册</router-link>
-          </p>
-        </div>
-      </el-form>
+
+      <el-tabs v-model="defaultTabs">
+        <el-tab-pane label="账号登陆" name="accountLogin">
+          <el-form :model="loginUser" :rules="rules" ref="loginForm" class="loginForm">
+            <el-form-item prop="account">
+              <el-input v-model="loginUser.account" placeholder="账号"></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input v-model="loginUser.password" placeholder="密码" type="password"></el-input>
+            </el-form-item>
+            <el-form-item prop="imagecode">
+              <el-col :span="16">
+                <el-input v-model="loginUser.imagecode" placeholder="验证码"></el-input>
+              </el-col>
+              <el-col :span="6">
+                <img
+                  :src="imagecodeSrc"
+                  class="img"
+                  style="width:50px;heigth:38px"
+                  @click="getImageCode()"
+                >
+              </el-col>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
+            </el-form-item>
+            <div class="tiparea">
+              <p>还没有账号？现在
+                <router-link to="/register">去注册</router-link>
+              </p>
+            </div>
+          </el-form>
+        </el-tab-pane>
+
+        <el-tab-pane label="手机登录" name="phoneLogin">
+          <el-form
+            :model="phoneLoginUser"
+            :rules="phoneRules"
+            ref="phoneLoginForm"
+            class="loginForm"
+          >
+            <el-form-item prop="mobile">
+              <el-input v-model="phoneLoginUser.mobile" placeholder="请输入手机号"></el-input>
+            </el-form-item>
+            <el-form-item prop="smscode">
+              <el-col :span="16">
+                <el-input v-model="phoneLoginUser.smscode" placeholder="请输入短信验证码" type="password"></el-input>
+              </el-col>
+              <el-col :span="6">
+                <el-button type="success" @click="sendSms()" class="smsButton">发送短信</el-button>
+              </el-col>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                type="primary"
+                @click="phoneSubmitForm('phoneLoginForm')"
+                class="submit_btn"
+              >登 录</el-button>
+            </el-form-item>
+            <div class="tiparea">
+              <p>还没有账号？现在
+                <router-link to="/register">去注册</router-link>
+              </p>
+            </div>
+          </el-form>
+        </el-tab-pane>
+      </el-tabs>
     </section>
   </div>
 </template>
@@ -48,13 +80,25 @@ export default {
   name: "login",
   data() {
     return {
+      //默认选项卡
+      defaultTabs: "accountLogin",
+
+      //登陆用户
       loginUser: {
         account: "",
         password: "",
         imagecode: ""
       },
+      //手机登陆用户
+      phoneLoginUser: {
+        mobile: "",
+        smscode: ""
+      },
+      //图片验证码URL
       imagecodeSrc: "",
+      //客户端唯一标识
       deviceid: "",
+      //登陆参数校验
       rules: {
         account: [{ required: true, message: "账号不能为空", trigger: "blur" }],
         password: [
@@ -65,10 +109,19 @@ export default {
           { required: true, message: "验证码不能为空", trigger: "blur" },
           { min: 4, max: 4, message: "验证码长度4个字符", trigger: "blur" }
         ]
+      },
+      phoneRules: {
+        mobile: [
+          { required: true, message: "手机号不能为空", trigger: "blur" }
+        ],
+        smscode: [
+          { required: true, message: "短信验证码不能为空", trigger: "blur" }
+        ]
       }
     };
   },
   methods: {
+    //账号密码登陆
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (!valid) {
@@ -102,6 +155,7 @@ export default {
       });
     },
 
+    //获取图片验证码
     getImageCode() {
       this.$axios
         .get("/api/authorization/get_image_code", {
@@ -122,10 +176,77 @@ export default {
         .then(data => {
           this.imagecodeSrc = data;
         });
+    },
+
+    //短信登陆
+    phoneSubmitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (!valid) {
+          return false;
+        }
+        this.$axios
+          .post("/api/authorization/login/sms_code", {
+            mobile: this.phoneLoginUser.mobile,
+            smscode: this.phoneLoginUser.smscode,
+            deviceid: this.deviceid
+          })
+          .then(response => {
+            if (response.data.status == "0000") {
+              this.$message({
+                message: response.data.msg,
+                type: "success"
+              });
+              console.info(response.data.data);
+            } else {
+              this.$message({
+                message: response.data.msg,
+                type: "warning"
+              });
+            }
+          })
+          .cache(error => {
+            this.$message.error("登陆失败");
+          });
+      });
+    },
+
+    //获取短信验证码
+    sendSms() {
+      if (this.phoneLoginUser.mobile == "") {
+        this.$message({
+          message: "手机号不能为空",
+          type: "warning"
+        });
+        return;
+      }
+      this.$axios
+        .get("/api/authorization/get_sms_code", {
+          params: {
+            deviceid: this.deviceid,
+            mobile: this.phoneLoginUser.mobile
+          }
+        })
+        .then(response => {
+          if (response.data.status == "0000") {
+            this.$message({
+              message: "短信发送成功",
+              type: "success"
+            });
+          } else {
+            this.$message({
+              message: "短信发送失败",
+              type: "warning"
+            });
+          }
+        }).cache(error =>{
+          this.$message.error("短信发送失败");
+        })
+        ;
     }
   },
   mounted() {
     if (this.deviceid == "" || this.deviceid == null) {
+      //获取uuid当客户端id 并加载图片验证码
       this.$axios.get("/api/authorization/get_uuid").then(response => {
         this.deviceid = response.data.data;
         this.getImageCode();
@@ -160,9 +281,9 @@ export default {
   color: #fff;
 }
 .loginForm {
-  margin-top: 20px;
+  margin-top: 0px;
   background-color: #fff;
-  padding: 20px 60px 20px 20px;
+  padding: 20px 20px 20px 20px;
   border-radius: 5px;
   box-shadow: 0px 5px 10px #cccc;
 }
@@ -179,6 +300,9 @@ export default {
   color: #409eff;
 }
 .img {
+  margin-left: 20px;
+}
+.smsButton {
   margin-left: 20px;
 }
 </style>
