@@ -31,7 +31,8 @@
               <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
             </el-form-item>
             <div class="tiparea">
-              <p>还没有账号？现在
+              <p>
+                还没有账号？现在
                 <router-link to="/register">去注册</router-link>
               </p>
             </div>
@@ -64,7 +65,8 @@
               >登 录</el-button>
             </el-form-item>
             <div class="tiparea">
-              <p>还没有账号？现在
+              <p>
+                还没有账号？现在
                 <router-link to="/register">去注册</router-link>
               </p>
             </div>
@@ -142,6 +144,7 @@ export default {
                 type: "success"
               });
               console.info(response.data.data);
+              this.saveUserVuexStore(response.data.data);
             } else {
               this.$message({
                 message: response.data.msg,
@@ -197,6 +200,7 @@ export default {
                 type: "success"
               });
               console.info(response.data.data);
+              this.saveUserVuexStore(response.data.data);
             } else {
               this.$message({
                 message: response.data.msg,
@@ -238,10 +242,14 @@ export default {
               type: "warning"
             });
           }
-        }).cache(error =>{
-          this.$message.error("短信发送失败");
         })
-        ;
+        .cache(error => {
+          this.$message.error("短信发送失败");
+        });
+    },
+    //向vuex 中保存user信息
+    saveUserVuexStore(user) {
+      this.$store.commit("addOrUpdateUser", user);
     }
   },
   mounted() {
