@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueResource from 'vue-resource'
 import axios from './utils/http.js'
 
+import store from './store'
 import router from './router'
 import App from './App'
 
@@ -24,6 +25,8 @@ Vue.prototype.$axios=axios;
 new Vue({
   //提供挂载元素
   el: '#app',
+  //vuex
+  store,
   //路由
   router,
   //模板
