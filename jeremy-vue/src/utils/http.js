@@ -64,7 +64,6 @@ function onRrefreshed(token) {
 
 /****** request拦截器==>对请求参数做处理 ******/
 axios.interceptors.request.use(config => {
-    debugger;
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
     //判断 accessToken 是否存在
