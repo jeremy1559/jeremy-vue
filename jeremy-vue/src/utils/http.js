@@ -86,7 +86,7 @@ axios.interceptors.request.use(config => {
                 return;
             });
         }
-        //判断accessToken是否将要过期
+        //判断accessToken是否将要过期或者已经过期
         if (isAccessTokenExpired(1000 * 60)) {
 
             /*把请求(token)=>{....}都push到一个数组中*/
@@ -105,12 +105,30 @@ axios.interceptors.request.use(config => {
                 axios.post("/api/authorization/refreshToken", {
                     refreshToken: getRefreshToken(),
                 }).then(response => {
+                    if (response.data.status == '0000') {
+                        //保存新 token 到 vuex中
+                        this.saveUserVuexStore(response.data.data);
+                        /*执行数组里的函数,重新发起被挂起的请求*/
+                        onRrefreshed(response.data.data.accessToken)
+                    } else {
+                        MessageBox.confirm('登陆超时请重新登陆', '登陆提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            //确定
+                            this.$store.commit("removeUser");
+                            window.location.href = '/login'
+                            return;
+                        }).catch(() => {
+                            //取消
+                            return;
+                        });
+                    }
                     window.isRefreshing = false;
-                    //保存新 token 到 vuex中
-                    this.saveUserVuexStore(response.data.data);
-                    /*执行数组里的函数,重新发起被挂起的请求*/
-                    onRrefreshed(response.data.data.accessToken)
+                    //清空执行方法的数组
                     refreshSubscribers = [];
+
                 }).cache(error => {
                     window.isRefreshing = false;
                     refreshSubscribers = [];
