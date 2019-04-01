@@ -36,21 +36,22 @@ function getAccessToken() {
 
 /*判断accessToken是否过期*/
 function isAccessTokenExpired(times) {
+
     /*从localStorage中取出token过期时间*/
-    let expiredTime = new Date(jwtDecode(getAccessToken()).exp).getTime();
+    let expiredTime = new Date(jwtDecode(getAccessToken()).outTime).getTime();
     /*获取本地时间*/
     let nowTime = new Date().getTime();
     /*返回是否过期*/
-    return nowTime - expiredTime < times;
+    return expiredTime - nowTime <= times;
 }
 /*判断refreshToken是否过期*/
 function isRefreshTokenExpired(times) {
     /*从localStorage中取出token过期时间*/
-    let expiredTime = new Date(jwtDecode(getAccessToken()).exp).getTime();
+    let expiredTime = new Date(jwtDecode(getRefreshToken()).outTime).getTime();
     /*获取本地时间*/
     let nowTime = new Date().getTime();
     /*返回是否过期*/
-    return nowTime - expiredTime < times;
+    return expiredTime - nowTime <= times;
 }
 /*push所有请求到数组中*/
 function subscribeTokenRefresh(cb) {
@@ -98,11 +99,11 @@ axios.interceptors.request.use(config => {
                     resolve(config)
                 })
             })
-
+            debugger;
             //是否已经在刷新token
             if (!window.isRefreshing) {
                 isRefreshing = true;
-                axios.post("/api/authorization/refreshToken", {
+                this.$axios.post("/api/authorization/refreshToken", {
                     refreshToken: getRefreshToken(),
                 }).then(response => {
                     if (response.data.status == '0000') {

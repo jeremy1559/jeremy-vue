@@ -249,7 +249,7 @@ export default {
     },
     //向vuex 中保存user信息
     saveUserVuexStore(user) {
-      this.$store.commit("addOrUpdateUser", user);
+      this.$store.state.user=user
     }
   },
   mounted() {
