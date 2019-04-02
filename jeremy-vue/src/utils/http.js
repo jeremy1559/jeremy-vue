@@ -26,6 +26,7 @@ function endLoding() {
 
 /*获取refreshToken*/
 function getRefreshToken() {
+    
     return store.getters.refreshToken;
 }
 
@@ -79,7 +80,7 @@ axios.interceptors.request.use(config => {
                 type: 'warning'
             }).then(() => {
                 //确定
-                this.$store.commit("removeUser");
+                store.state.user={};
                 window.location.href = '/login'
                 return;
             }).catch(() => {
@@ -103,22 +104,22 @@ axios.interceptors.request.use(config => {
             //是否已经在刷新token
             if (!window.isRefreshing) {
                 isRefreshing = true;
-                this.$axios.post("/api/authorization/refreshToken", {
-                    refreshToken: getRefreshToken(),
+                axios.post("/api/authorization/refreshToken", {
+                    refreshToken: getRefreshToken()
                 }).then(response => {
                     if (response.data.status == '0000') {
                         //保存新 token 到 vuex中
-                        this.saveUserVuexStore(response.data.data);
+                        store.state.user=response.data.data
                         /*执行数组里的函数,重新发起被挂起的请求*/
                         onRrefreshed(response.data.data.accessToken)
                     } else {
-                        MessageBox.confirm('登陆超时请重新登陆', '登陆提示', {
+                        MessageBox.confirm('登陆超时请重新登陆2', '登陆提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
                             //确定
-                            this.$store.commit("removeUser");
+                            store.state.user={};
                             window.location.href = '/login'
                             return;
                         }).catch(() => {
@@ -128,18 +129,13 @@ axios.interceptors.request.use(config => {
                     }
                     window.isRefreshing = false;
                     //清空执行方法的数组
+                    console.log(refreshSubscribers);
                     refreshSubscribers = [];
 
-                }).cache(error => {
-                    window.isRefreshing = false;
-                    refreshSubscribers = [];
-                    this.$store.commit("removeUser");
-                    window.location.href = '/login'
-                    console.log(error);
                 });
 
             }
-            return retry
+            return retry;
         }
         return config;
     }

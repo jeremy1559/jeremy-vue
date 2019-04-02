@@ -151,9 +151,6 @@ export default {
                 type: "warning"
               });
             }
-          })
-          .cache(error => {
-            console.error(error);
           });
       });
     },
@@ -207,9 +204,6 @@ export default {
                 type: "warning"
               });
             }
-          })
-          .cache(error => {
-            this.$message.error("登陆失败");
           });
       });
     },
@@ -243,9 +237,6 @@ export default {
             });
           }
         })
-        .cache(error => {
-          this.$message.error("短信发送失败");
-        });
     },
     //向vuex 中保存user信息
     saveUserVuexStore(user) {
