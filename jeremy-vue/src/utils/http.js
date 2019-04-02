@@ -68,7 +68,7 @@ axios.interceptors.request.use(config => {
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
     //判断 accessToken 是否存在
-    if (accessToken) {
+    if (accessToken&&config.url!='/api/authorization/refreshToken') {
         //在请求头中添加token类型、token
         config.headers.token = accessToken;
         //如果刷新token不存在或者刷新token过期
@@ -99,7 +99,7 @@ axios.interceptors.request.use(config => {
                     resolve(config)
                 })
             })
-            debugger;
+
             //是否已经在刷新token
             if (!window.isRefreshing) {
                 isRefreshing = true;
