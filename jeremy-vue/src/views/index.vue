@@ -51,8 +51,8 @@ export default {
 }
 .tittle {
   border-bottom: solid #acc0d8 1px;
-  margin: 10px;
-  padding: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 .rightContainer {
   position: fixed;
@@ -62,7 +62,7 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   width: 100%;
   height: 100%;
-  border-bottom: solid #acc0d8 1px;
+  padding: 10px;
 }
 .router-link-active {
   text-decoration: none;
