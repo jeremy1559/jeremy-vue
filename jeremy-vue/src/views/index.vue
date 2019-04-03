@@ -5,12 +5,12 @@
 
     <div class="rightContainer">
       <div class="tittle">
-        <router-link to="/home"> 导航1 </router-link>
-        <i class="el-icon-d-arrow-right"></i>
-        <router-link to="/home"> 首页 </router-link>
-        <i class="el-icon-d-arrow-right"></i>
+        <template v-for=" (item, index) in matched">
+          <i class="el-icon-arrow-right" v-if="item.path!='/index'"></i>
+          <i v-if="item.path!='/index'" @click="toRoute(item)" class='hoverRed'>{{item.name}}</i>
+        </template>
       </div>
-      <router-view></router-view>
+      <router-view v-on:changeTopTitle="changeTopTitle"></router-view>
     </div>
   </div>
 </template>
@@ -24,6 +24,22 @@ export default {
   components: {
     HeadNav,
     LeftMenu
+  },
+  data() {
+    return {
+      matched: this.$route.matched
+    };
+  },
+  created() {
+
+  },
+  methods: {
+    toRoute(item) {
+      this.$router.push(item.path);
+    },
+    changeTopTitle(){
+      this.matched=this.$route.matched;
+    }
   }
 };
 </script>
@@ -36,6 +52,7 @@ export default {
 .tittle {
   border-bottom: solid #acc0d8 1px;
   margin: 10px;
+  padding: 5px;
 }
 .rightContainer {
   position: fixed;
@@ -49,6 +66,9 @@ export default {
 }
 .router-link-active {
   text-decoration: none;
+}
+.hoverRed{
+cursor:pointer;
 }
 </style>
 
