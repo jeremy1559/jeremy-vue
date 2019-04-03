@@ -10,7 +10,7 @@
       active-text-color="#ffd04b"
     >
      <el-menu-item index="0">
-      <router-link to="/home"><img src="../assets/jeremy_log.png" width="140px" height="60px"></router-link> 
+      <router-link to="/home"><img src="../../assets/jeremy_log.png" width="140px" height="60px"></router-link> 
      </el-menu-item>
       <el-menu-item index="1">处理中心</el-menu-item>
       <el-submenu index="2">
@@ -54,18 +54,15 @@ export default {
 .menu_page {
   position: fixed;
   top: 0px;
-  left: 0;
+  left: 0px;
   width: 100%;
-  background-color: #324057;
+  background-color: #545c64;
   z-index: 99;
 }
 
 
 .el-menu {
   border: none;
-}
-.el-menu-item {
-  
 }
 .fa-margin {
   margin-right: 5px;
