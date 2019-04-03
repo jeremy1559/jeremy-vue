@@ -113,7 +113,7 @@ axios.interceptors.request.use(config => {
                         /*执行数组里的函数,重新发起被挂起的请求*/
                         onRrefreshed(response.data.data.accessToken)
                     } else {
-                        MessageBox.confirm('登陆超时请重新登陆2', '登陆提示', {
+                        MessageBox.confirm('登陆超时请重新登陆', '登陆提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
