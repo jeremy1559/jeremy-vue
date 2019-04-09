@@ -8,36 +8,44 @@
       active-text-color="#ffd04b"
       @select="handleSelect"
     >
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
+      <template v-for=" (item, index) in menu">
+        <template slot="title" v-if="!item.child||item.child.length<=0">
+          <el-menu-item :index="item.order" @click="toRouter(item)">
+            <i :class="item.icon"></i>
+            <span>{{item.name}}</span>
+          </el-menu-item>
         </template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
+        <template v-else>
+          <el-submenu :index="item.order">
+            <template slot="title" @click="toRouter(item)">
+              <i :class="item.icon"></i>
+              {{item.name}}
+            </template>
+            <template v-for=" (childItem, childIndex) in item.child">
+              <template v-if="!childItem.child||childItem.child.length<=0">
+                <el-menu-item index="childItem.order" @click="toRouter(childItem)">
+                  <i :class="item.icon"></i>
+                  {{childItem.name}}
+                </el-menu-item>
+              </template>
+              <template v-else>
+                <el-submenu :index="childItem.order">
+                  <template slot="title" @click="toRouter(childItem)">
+                    <i :class="item.icon"></i>
+                    {{childItem.name}}
+                  </template>
+                  <template v-for=" (childChildItem, childChildIndex) in childItem.child">
+                    <el-menu-item :index="childChildItem.order" @click="toRouter(childChildItem)">
+                      <i :class="item.icon"></i>
+                      {{childChildItem.name}}
+                    </el-menu-item>
+                  </template>
+                </el-submenu>
+              </template>
+            </template>
+          </el-submenu>
+        </template>
+      </template>
     </el-menu>
   </div>
 </template>
@@ -46,19 +54,94 @@ export default {
   name: "leftmenu",
   data() {
     return {
-       activeIndex: "1-1"
-
+      activeIndex: "1-1",
+      menu: [
+        {
+          order: "1",
+          name: "导航1",
+          path: "/home",
+          icon: "el-icon-location",
+          child: [
+            {
+              order: "1-1",
+              name: "导航1-1",
+              path: "/home",
+              icon: "el-icon-location"
+            },
+            {
+              order: "1-2",
+              name: "导航1-2",
+              path: "/home",
+              icon: "el-icon-location",
+              child: [
+                {
+                  order: "1-2-1",
+                  name: "导航1-2-1",
+                  path: "/home",
+                  icon: "el-icon-location"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          order: "2",
+          name: "导航2",
+          path: "/home",
+          icon: "el-icon-setting",
+          child: [
+            {
+              order: "2-1",
+              name: "导航2-1",
+              path: "/home",
+              icon: "el-icon-location",
+              child: [
+                {
+                  order: "2-1-1",
+                  name: "导航2-1-1",
+                  path: "/home",
+                  icon: "el-icon-location"
+                }
+              ]
+            },
+            {
+              order: "2-2",
+              name: "导航2-2",
+              path: "/home",
+              icon: "el-icon-location",
+              child: [
+                {
+                  order: "2-2-1",
+                  name: "导航2-2-1",
+                  path: "/home",
+                  icon: "el-icon-location"
+                },
+                {
+                  order: "2-2-2",
+                  name: "导航2-2-2",
+                  path: "/home2",
+                  icon: "el-icon-location"
+                }
+              ]
+            }
+          ]
+        }
+      ]
     };
   },
-   methods: {
+  methods: {
     handleSelect(key, keyPath) {
-      
+      console.log(key, keyPath);
+    },
+    toRouter(item) {
+      if (item && item.path) {
+        this.$router.push({ path: item.path });
+      }
     }
   }
 };
 </script>
 <style scoped>
-
 .menu_page {
   position: fixed;
   top: 60px;

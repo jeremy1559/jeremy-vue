@@ -27,6 +27,7 @@ export default {
   },
   data() {
     return {
+      //当前路由对象中的路由列表
       matched: this.$route.matched
     };
   },
@@ -34,9 +35,11 @@ export default {
 
   },
   methods: {
+    //页面totalTop点击跳转路由
     toRoute(item) {
       this.$router.push(item.path);
     },
+    //自定义事件获取当前路由列表
     changeTopTitle(){
       this.matched=this.$route.matched;
     }
