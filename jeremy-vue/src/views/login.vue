@@ -131,7 +131,7 @@ export default {
         }
 
         this.$axios
-          .post("/api/authorization/login/image_code", {
+          .post(this.$URL.imageCode.path, {
             account: this.loginUser.account,
             password: this.loginUser.password,
             imagecode: this.loginUser.imagecode,
@@ -144,7 +144,7 @@ export default {
                 type: "success"
               });
               console.info(response.data.data);
-              this.saveUserVuexStore(response.data.data);
+              this.saveUserSession(response.data.data);
             } else {
               this.$message({
                 message: response.data.msg,
@@ -158,7 +158,7 @@ export default {
     //获取图片验证码
     getImageCode() {
       this.$axios
-        .get("/api/authorization/get_image_code", {
+        .get(this.$URL.getImageCode.path, {
           params: { deviceid: this.deviceid },
           responseType: "arraybuffer"
         })
@@ -185,7 +185,7 @@ export default {
           return false;
         }
         this.$axios
-          .post("/api/authorization/login/sms_code", {
+          .post(this.$URL.smsCode.path, {
             mobile: this.phoneLoginUser.mobile,
             smscode: this.phoneLoginUser.smscode,
             deviceid: this.deviceid
@@ -197,7 +197,7 @@ export default {
                 type: "success"
               });
               console.info(response.data.data);
-              this.saveUserVuexStore(response.data.data);
+              this.saveUserSession(response.data.data);
             } else {
               this.$message({
                 message: response.data.msg,
@@ -218,7 +218,7 @@ export default {
         return;
       }
       this.$axios
-        .get("/api/authorization/get_sms_code", {
+        .get(this.$URL.getSmsCode.path, {
           params: {
             deviceid: this.deviceid,
             mobile: this.phoneLoginUser.mobile
@@ -236,17 +236,17 @@ export default {
               type: "warning"
             });
           }
-        })
+        });
     },
-    //向vuex 中保存user信息
-    saveUserVuexStore(user) {
-      this.$store.state.user=user
+    //向sessionStorage 中保存user信息
+    saveUserSession(user) {
+      sessionStorage.setItem("user", user);
     }
   },
   mounted() {
     if (this.deviceid == "" || this.deviceid == null) {
       //获取uuid当客户端id 并加载图片验证码
-      this.$axios.get("/api/authorization/get_uuid").then(response => {
+      this.$axios.get(this.$URL.uuid.path).then(response => {
         this.deviceid = response.data.data;
         this.getImageCode();
       });

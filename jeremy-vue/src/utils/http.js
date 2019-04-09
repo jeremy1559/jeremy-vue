@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Loading, MessageBox } from 'element-ui';
-import store from '../store'
 import jwtDecode from 'jwt-decode'
 
 
@@ -26,13 +25,20 @@ function endLoding() {
 
 /*获取refreshToken*/
 function getRefreshToken() {
-    
-    return store.getters.refreshToken;
+    let a = sessionStorage.getItem("user");
+    if (a) {
+        return a.refreshToken;
+    }
+
 }
 
 /*获取accessToken*/
 function getAccessToken() {
-    return store.getters.accessToken;
+    let a = sessionStorage.getItem("user");
+    if (a) {
+        return a.accessToken;
+    }
+
 }
 
 /*判断accessToken是否过期*/
@@ -69,7 +75,7 @@ axios.interceptors.request.use(config => {
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
     //判断 accessToken 是否存在
-    if (accessToken&&config.url!='/api/authorization/refreshToken') {
+    if (accessToken && config.url != '/api/authorization/refreshToken') {
         //在请求头中添加token类型、token
         config.headers.token = accessToken;
         //如果刷新token不存在或者刷新token过期
@@ -80,7 +86,7 @@ axios.interceptors.request.use(config => {
                 type: 'warning'
             }).then(() => {
                 //确定
-                store.state.user={};
+                sessionStorage.removeItem("user");
                 window.location.href = '/login'
                 return;
             }).catch(() => {
@@ -109,7 +115,7 @@ axios.interceptors.request.use(config => {
                 }).then(response => {
                     if (response.data.status == '0000') {
                         //保存新 token 到 vuex中
-                        store.state.user=response.data.data
+                        sessionStorage.setItem("user", response.data.data);
                         /*执行数组里的函数,重新发起被挂起的请求*/
                         onRrefreshed(response.data.data.accessToken)
                     } else {
@@ -119,7 +125,7 @@ axios.interceptors.request.use(config => {
                             type: 'warning'
                         }).then(() => {
                             //确定
-                            store.state.user={};
+                            sessionStorage.removeItem("user");
                             window.location.href = '/login'
                             return;
                         }).catch(() => {

@@ -1,7 +1,7 @@
 <template>
   <div class="register">
     <section class="form_container">
-       <div class="manage_tip">
+      <div class="manage_tip">
         <span class="title">用户注册</span>
       </div>
       <el-form
@@ -178,7 +178,7 @@ export default {
           return false;
         }
         this.$axios
-          .post("/api/authorization/registerUser", this.registerUser)
+          .post(this.$URL.registerUser.path, this.registerUser)
           .then(response => {
             if (response.data.status == "0000") {
               this.$message({
