@@ -25,7 +25,7 @@ function endLoding() {
 
 /*获取refreshToken*/
 function getRefreshToken() {
-    let a = sessionStorage.getItem("user");
+    let a = JSON.parse(sessionStorage.getItem("user"));
     if (a) {
         return a.refreshToken;
     }
@@ -34,7 +34,7 @@ function getRefreshToken() {
 
 /*获取accessToken*/
 function getAccessToken() {
-    let a = sessionStorage.getItem("user");
+    let a = JSON.parse(sessionStorage.getItem("user"));
     if (a) {
         return a.accessToken;
     }
@@ -95,7 +95,7 @@ axios.interceptors.request.use(config => {
             });
         }
         //判断accessToken是否将要过期或者已经过期
-        if (isAccessTokenExpired(1000 * 60)) {
+        if (isAccessTokenExpired(1000 * 30)) {
 
             /*把请求(token)=>{....}都push到一个数组中*/
             let retry = new Promise((resolve, reject) => {
@@ -115,7 +115,7 @@ axios.interceptors.request.use(config => {
                 }).then(response => {
                     if (response.data.status == '0000') {
                         //保存新 token 到 vuex中
-                        sessionStorage.setItem("user", response.data.data);
+                        sessionStorage.setItem("user", JSON.stringify(response.data.data));
                         /*执行数组里的函数,重新发起被挂起的请求*/
                         onRrefreshed(response.data.data.accessToken)
                     } else {

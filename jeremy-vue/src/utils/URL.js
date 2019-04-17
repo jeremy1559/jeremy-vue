@@ -5,6 +5,7 @@ export default {
   getSmsCode: { path: "/api/authorization/get_sms_code", desc: "获取短信验证码" },
   smsCode: { path: "/api/authorization/login/sms_code", desc: "短信登陆" },
   registerUser: { path:  "/api/authorization/registerUser", desc: "注册用户" },
+  logOut: { path:  "/api/authorization/logout", desc: "退出登录" },
 
  
 

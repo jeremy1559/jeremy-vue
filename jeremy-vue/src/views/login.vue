@@ -14,7 +14,7 @@
             <el-form-item prop="password">
               <el-input v-model="loginUser.password" placeholder="密码" type="password"></el-input>
             </el-form-item>
-            <el-form-item prop="imagecode">
+            <!-- <el-form-item prop="imagecode">
               <el-col :span="16">
                 <el-input v-model="loginUser.imagecode" placeholder="验证码"></el-input>
               </el-col>
@@ -26,7 +26,7 @@
                   @click="getImageCode()"
                 >
               </el-col>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item>
               <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
             </el-form-item>
@@ -145,6 +145,8 @@ export default {
               });
               console.info(response.data.data);
               this.saveUserSession(response.data.data);
+               //跳转主页
+              this.$router.push("/index");
             } else {
               this.$message({
                 message: response.data.msg,
@@ -198,6 +200,8 @@ export default {
               });
               console.info(response.data.data);
               this.saveUserSession(response.data.data);
+               //跳转主页
+              this.$router.push("/index");
             } else {
               this.$message({
                 message: response.data.msg,
@@ -218,11 +222,9 @@ export default {
         return;
       }
       this.$axios
-        .get(this.$URL.getSmsCode.path, {
-          params: {
-            deviceid: this.deviceid,
-            mobile: this.phoneLoginUser.mobile
-          }
+        .post(this.$URL.getSmsCode.path, {
+          deviceid: this.deviceid,
+          mobile: this.phoneLoginUser.mobile
         })
         .then(response => {
           if (response.data.status == "0000") {
@@ -240,7 +242,8 @@ export default {
     },
     //向sessionStorage 中保存user信息
     saveUserSession(user) {
-      sessionStorage.setItem("user", user);
+      let u ={};
+      sessionStorage.setItem("user", JSON.stringify(user));
     }
   },
   mounted() {
@@ -248,7 +251,7 @@ export default {
       //获取uuid当客户端id 并加载图片验证码
       this.$axios.get(this.$URL.uuid.path).then(response => {
         this.deviceid = response.data.data;
-        this.getImageCode();
+        //this.getImageCode();
       });
     }
   }

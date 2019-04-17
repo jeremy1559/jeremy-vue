@@ -48,7 +48,7 @@
       <el-submenu index="999" style="float: right;">
         <template slot="title">个人中心</template>
         <el-menu-item index="999-1">个人信息</el-menu-item>
-        <el-menu-item index="999-2">退出登录</el-menu-item>
+        <el-menu-item index="999-2" @click="logOut">退出登录</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -126,6 +126,27 @@ export default {
       if(item && item.path){
         this.$router.push({path:item.path});
       }
+    },
+    logOut(){
+       this.$axios
+          .post(this.$URL.logOut.path, {
+          })
+          .then(response => {
+            if (response.data.status == "0000") {
+              //删除登陆用户信息
+              sessionStorage.removeItem("user");
+              this.$message({
+                message: response.data.msg,
+                type: "success"
+              });
+              this.$router.push("/login")
+            } else {
+              this.$message({
+                message: response.data.msg,
+                type: "warning"
+              });
+            }
+          });
     }
   }
 };
