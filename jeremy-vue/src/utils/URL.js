@@ -6,6 +6,7 @@ export default {
   smsCode: { path: "/api/authorization/login/sms_code", desc: "短信登陆" },
   registerUser: { path:  "/api/authorization/registerUser", desc: "注册用户" },
   logOut: { path:  "/api/authorization/logout", desc: "退出登录" },
+  menu: { path:  "/api/authorization/getMenu", desc: "获取菜单" },
 
  
 

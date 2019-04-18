@@ -3,13 +3,13 @@
     <el-menu
       :default-active="activeIndex"
       class="el-menu-vertical-demo"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+      background-color="#f2eada"
+      text-color="#77787b"
+      active-text-color="#65c294"
       @select="handleSelect"
     >
       <template v-for=" (item, index) in menu">
-        <template slot="title" v-if="!item.child||item.child.length<=0">
+        <template v-if="!item.child||item.child.length<=0">
           <el-menu-item :index="item.order" @click="toRouter(item)">
             <i :class="item.icon"></i>
             <span>{{item.name}}</span>
@@ -56,78 +56,94 @@ export default {
     return {
       activeIndex: "1-1",
       menu: [
-        {
-          order: "1",
-          name: "导航1",
-          path: "/home",
-          icon: "el-icon-location",
-          child: [
-            {
-              order: "1-1",
-              name: "导航1-1",
-              path: "/home",
-              icon: "el-icon-location"
-            },
-            {
-              order: "1-2",
-              name: "导航1-2",
-              path: "/home",
-              icon: "el-icon-location",
-              child: [
-                {
-                  order: "1-2-1",
-                  name: "导航1-2-1",
-                  path: "/home",
-                  icon: "el-icon-location"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          order: "2",
-          name: "导航2",
-          path: "/home",
-          icon: "el-icon-setting",
-          child: [
-            {
-              order: "2-1",
-              name: "导航2-1",
-              path: "/home",
-              icon: "el-icon-location",
-              child: [
-                {
-                  order: "2-1-1",
-                  name: "导航2-1-1",
-                  path: "/home",
-                  icon: "el-icon-location"
-                }
-              ]
-            },
-            {
-              order: "2-2",
-              name: "导航2-2",
-              path: "/home",
-              icon: "el-icon-location",
-              child: [
-                {
-                  order: "2-2-1",
-                  name: "导航2-2-1",
-                  path: "/home",
-                  icon: "el-icon-location"
-                },
-                {
-                  order: "2-2-2",
-                  name: "导航2-2-2",
-                  path: "/home2",
-                  icon: "el-icon-location"
-                }
-              ]
-            }
-          ]
-        }
+        // {
+        //   order: "1",
+        //   name: "导航1",
+        //   path: "/home",
+        //   icon: "el-icon-location",
+        //   child: [
+        //     {
+        //       order: "1-1",
+        //       name: "导航1-1",
+        //       path: "/home",
+        //       icon: "el-icon-location"
+        //     },
+        //     {
+        //       order: "1-2",
+        //       name: "导航1-2",
+        //       path: "/home",
+        //       icon: "el-icon-location",
+        //       child: [
+        //         {
+        //           order: "1-2-1",
+        //           name: "导航1-2-1",
+        //           path: "/home",
+        //           icon: "el-icon-location"
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
+        // {
+        //   order: "2",
+        //   name: "导航2",
+        //   path: "/home",
+        //   icon: "el-icon-setting",
+        //   child: [
+        //     {
+        //       order: "2-1",
+        //       name: "导航2-1",
+        //       path: "/home",
+        //       icon: "el-icon-location",
+        //       child: [
+        //         {
+        //           order: "2-1-1",
+        //           name: "导航2-1-1",
+        //           path: "/home",
+        //           icon: "el-icon-location"
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       order: "2-2",
+        //       name: "导航2-2",
+        //       path: "/home",
+        //       icon: "el-icon-location",
+        //       child: [
+        //         {
+        //           order: "2-2-1",
+        //           name: "导航2-2-1",
+        //           path: "/home",
+        //           icon: "el-icon-location"
+        //         },
+        //         {
+        //           order: "2-2-2",
+        //           name: "导航2-2-2",
+        //           path: "/home2",
+        //           icon: "el-icon-location"
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // }
       ]
     };
+  },
+  mounted(){
+     this.$axios
+        .post(this.$URL.menu.path, {
+          type: '1',
+        })
+        .then(response => {
+          if (response.data.status == "0000") {
+           this.menu=response.data.data;
+          } else {
+            this.$message({
+              message: "获取左侧菜单失败",
+              type: "warning"
+            });
+          }
+        });
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -147,7 +163,7 @@ export default {
   top: 60px;
   left: 0;
   min-height: 100%;
-  background-color: #545c64;
+  background-color: #f2eada;
   z-index: 99;
 }
 

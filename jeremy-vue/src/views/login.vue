@@ -146,7 +146,7 @@ export default {
               console.info(response.data.data);
               this.saveUserSession(response.data.data);
                //跳转主页
-              this.$router.push("/index");
+              this.$router.push("/home");
             } else {
               this.$message({
                 message: response.data.msg,
@@ -201,7 +201,7 @@ export default {
               console.info(response.data.data);
               this.saveUserSession(response.data.data);
                //跳转主页
-              this.$router.push("/index");
+              this.$router.push("/home");
             } else {
               this.$message({
                 message: response.data.msg,

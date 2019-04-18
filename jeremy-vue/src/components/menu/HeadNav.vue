@@ -5,13 +5,13 @@
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+      background-color="#f2eada"
+      text-color="#77787b"
+      active-text-color="#65c294"
     >
       <el-menu-item index="0">
         <router-link to="/home">
-          <img src="../../assets/jeremy_log.png" width="140px" height="60px">
+          <img src="../../assets/jeremy_log.png">
         </router-link>
       </el-menu-item>
 
@@ -58,65 +58,82 @@ export default {
   data() {
     return {
       //选中菜单坐标
-      activeIndex: "0",
+      activeIndex: "",
       menu: [
-        {
-          order: "1",
-          name: "导航1",
-          path: "/home",
-          child: [
-            {
-              order: "1-1",
-              name: "导航1-1",
-              path: "/home"
-            },
-            {
-              order: "1-2",
-              name: "导航1-2",
-              path: "/home",
-              child: [
-                {
-                  order: "1-2-1",
-                  name: "导航1-2-1",
-                  path: "/home"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          order: "2",
-          name: "导航2",
-          path: "/home",
-          child: [
-            {
-              order: "2-1",
-              name: "导航2-1",
-              path: "/home",
-              child: [
-                {
-                  order: "2-1-1",
-                  name: "导航2-1-1",
-                  path: "/home"
-                }
-              ]
-            },
-            {
-              order: "2-2",
-              name: "导航2-2",
-              path: "/home",
-              child: [
-                {
-                  order: "2-2-1",
-                  name: "导航2-2-1",
-                  path: "/home2"
-                }
-              ]
-            }
-          ]
-        }
+        // {
+        //   order: "1",
+        //   name: "导航1",
+        //   path: "/home",
+        //   child: [
+        //     {
+        //       order: "1-1",
+        //       name: "导航1-1",
+        //       path: "/home"
+        //     },
+        //     {
+        //       order: "1-2",
+        //       name: "导航1-2",
+        //       path: "/home",
+        //       child: [
+        //         {
+        //           order: "1-2-1",
+        //           name: "导航1-2-1",
+        //           path: "/home"
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // },
+        // {
+        //   order: "2",
+        //   name: "导航2",
+        //   path: "/home",
+        //   child: [
+        //     {
+        //       order: "2-1",
+        //       name: "导航2-1",
+        //       path: "/home",
+        //       child: [
+        //         {
+        //           order: "2-1-1",
+        //           name: "导航2-1-1",
+        //           path: "/home"
+        //         }
+        //       ]
+        //     },
+        //     {
+        //       order: "2-2",
+        //       name: "导航2-2",
+        //       path: "/home",
+        //       child: [
+        //         {
+        //           order: "2-2-1",
+        //           name: "导航2-2-1",
+        //           path: "/home2"
+        //         }
+        //       ]
+        //     }
+        //   ]
+        // }
       ]
     };
+  },
+
+  mounted(){
+     this.$axios
+        .post(this.$URL.menu.path, {
+          type: '3',
+        })
+        .then(response => {
+          if (response.data.status == "0000") {
+           this.menu=response.data.data;
+          } else {
+            this.$message({
+              message: "获取顶部菜单失败",
+              type: "warning"
+            });
+          }
+        });
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -158,29 +175,8 @@ export default {
   top: 0px;
   left: 0px;
   width: 100%;
-  background-color: #545c64;
   z-index: 99;
+  height: 30px;
 }
 
-.el-menu {
-  border: none;
-}
-.fa-margin {
-  margin-right: 5px;
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 180px;
-  min-height: 400px;
-}
-.el-menu-vertical-demo {
-  width: 35px;
-}
-.el-submenu .el-menu-item {
-  min-width: 180px;
-}
-
-.hiddenDropdown,
-.hiddenDropname {
-  display: none;
-}
 </style>

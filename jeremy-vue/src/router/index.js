@@ -13,7 +13,7 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name:'首页', redirect: '/index',},
+    { path: '/', name:'首页', redirect: '/home',},
     { path: '/register',name: '注册页面',component: register},
     { path: '/login',name: '登陆页面', component: login }, 
     
