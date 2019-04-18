@@ -5,8 +5,7 @@
 
     <div class="tittle" v-if="fullPath !='/index'">
       <template v-for=" (item, index) in matched">
-        <i class="el-icon-arrow-right" v-if="item.path!='/index'"></i>
-        <i v-if="item.path!='/index'" @click="toRoute(item)" class="hoverRed">{{item.name}}</i>
+        <i v-if="item.path!='/index'" @click="toRoute(item)" class="hoverRed"><i class="el-icon-arrow-right" v-if="item.path!='/index'"></i>{{item.name}}</i>
       </template>
     </div>
     <div v-bind:class="{view:fullPath !='/index',view2:fullPath =='/index'}">
