@@ -23,7 +23,7 @@
             </template>
             <template v-for=" (childItem, childIndex) in item.child">
               <template v-if="!childItem.child||childItem.child.length<=0">
-                <el-menu-item index="childItem.order" @click="toRouter(childItem)">
+                <el-menu-item :index="childItem.order" @click="toRouter(childItem)">
                   <i :class="childItem.icon"></i>
                   {{childItem.name}}
                 </el-menu-item>
