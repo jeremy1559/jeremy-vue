@@ -11,10 +11,6 @@
 
 <script>
 export default {
-    mounted(){
-      //调用父组件(index.vue)，修改totalTop
-      this.$emit('changeTopTitle','');
-    }
 }
 </script>
 

@@ -5,6 +5,7 @@ import Vue from 'vue'
 // 引入UI组件
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './css/ico/iconfont.css';
 //引入资源请求插件
 import VueResource from 'vue-resource'
 import axios from './utils/http.js'

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu_page">
+  <div>
     <el-menu
       :default-active="activeIndex"
       class="el-menu-demo"
@@ -170,13 +170,5 @@ export default {
 </script>
 
 <style scoped>
-.menu_page {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  z-index: 99;
-  height: 30px;
-}
 
 </style>

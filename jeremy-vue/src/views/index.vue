@@ -1,15 +1,23 @@
 <template>
   <div class="index">
-    <HeadNav></HeadNav>
-    <LeftMenu></LeftMenu>
+    <div class="top">
+      <HeadNav></HeadNav>
+    </div>
+    <div class="left">
+      <p class="info">欢迎登陆:{{user.userName}}</p>
+      <LeftMenu></LeftMenu>
+    </div>
 
     <div class="tittle" v-if="fullPath !='/index'">
       <template v-for=" (item, index) in matched">
-        <i v-if="item.path!='/index'" @click="toRoute(item)" class="hoverRed"><i class="el-icon-arrow-right" v-if="item.path!='/index'"></i>{{item.name}}</i>
+        <i v-if="item.path!='/index'" @click="toRoute(item)">
+          <i class="el-icon-arrow-right"></i>
+          {{item.name}}
+        </i>
       </template>
     </div>
     <div v-bind:class="{view:fullPath !='/index',view2:fullPath =='/index'}">
-      <router-view v-on:changeTopTitle="changeTopTitle"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -29,28 +37,63 @@ export default {
     return {
       //当前路由对象中的路由列表
       matched: this.$route.matched,
-      fullPath: this.$route.fullPath
+      fullPath: this.$route.fullPath,
+      user: {}
     };
   },
-  created() {},
+  mounted() {
+    //修改整个body的颜色
+    document
+      .querySelector("body")
+      .setAttribute("style", "background-color:#f7f7f7");
+    this.user = JSON.parse(sessionStorage.getItem("user"));
+  },
+  //销毁body样式
+  beforeDestroy() {
+    document.querySelector("body").removeAttribute("style");
+  },
+  //自定义事件获取当前路由列表
+  beforeRouteUpdate(to, from, next) {
+    this.matched = to.matched;
+    this.fullPath = to.fullPath;
+    next();
+  },
   methods: {
     //页面totalTop点击跳转路由
-    toRoute(item) {
+    toRoute(to, from, next) {
       this.$router.push(item.path);
-    },
-    //自定义事件获取当前路由列表
-    changeTopTitle() {
-      this.matched = this.$route.matched;
-      this.fullPath = this.$route.fullPath;
+      console.log("to->>>" + item.path);
     }
   }
 };
 </script>
 <style scoped>
 .index {
+  background-color: #f2eada;
+}
+.info{
+  padding-left: 20px;
+  margin: 0px;
+  color: rgb(153, 153, 153);
+  height: 30px;
+}
+.left {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  min-height: 100%;
+  width: 180px;
+  background-color: #f2eada;
+  z-index: 99;
+}
+.top {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   width: 100%;
-  height: 100%;
-  border: 1px solid ;
+  z-index: 99;
+  height: 30px;
+  background-color: #f2eada;
 }
 
 .tittle {
@@ -60,9 +103,10 @@ export default {
   z-index: 99;
   width: 100%;
   height: 30px;
-  line-height:30xp;
-  font-family:Microsoft YaHei;
-  border: 1px solid #dedede;
+  line-height: 30px;
+  font-family: Microsoft YaHei;
+  background-color: white;
+  padding-left: 10px;
 }
 .view {
   position: fixed;
@@ -72,7 +116,8 @@ export default {
   width: 100%;
   height: 100%;
   height: 100%;
-  border: 1px solid #dedede;
+  background-color: white;
+  padding: 10px;
 }
 .view2 {
   position: fixed;
@@ -82,13 +127,8 @@ export default {
   width: 100%;
   height: 100%;
   height: 100%;
-  border: 1px solid  #dedede;
-}
-.router-link-active {
-  text-decoration: none;
-}
-.hoverRed {
-  cursor: pointer;
+  background-color: white;
+  padding: 10px;
 }
 </style>
 

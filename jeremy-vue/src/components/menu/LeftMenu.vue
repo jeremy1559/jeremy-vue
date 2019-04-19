@@ -1,5 +1,5 @@
 <template>
-  <div class="menu_page">
+  <div>
     <el-menu
       :default-active="activeIndex"
       class="el-menu-vertical-demo"
@@ -24,19 +24,19 @@
             <template v-for=" (childItem, childIndex) in item.child">
               <template v-if="!childItem.child||childItem.child.length<=0">
                 <el-menu-item index="childItem.order" @click="toRouter(childItem)">
-                  <i :class="item.icon"></i>
+                  <i :class="childItem.icon"></i>
                   {{childItem.name}}
                 </el-menu-item>
               </template>
               <template v-else>
                 <el-submenu :index="childItem.order">
                   <template slot="title" @click="toRouter(childItem)">
-                    <i :class="item.icon"></i>
+                    <i :class="childItem.icon"></i>
                     {{childItem.name}}
                   </template>
                   <template v-for=" (childChildItem, childChildIndex) in childItem.child">
                     <el-menu-item :index="childChildItem.order" @click="toRouter(childChildItem)">
-                      <i :class="item.icon"></i>
+                      <i :class="childChildItem.icon"></i>
                       {{childChildItem.name}}
                     </el-menu-item>
                   </template>
@@ -129,21 +129,21 @@ export default {
       ]
     };
   },
-  mounted(){
-     this.$axios
-        .post(this.$URL.menu.path, {
-          type: '1',
-        })
-        .then(response => {
-          if (response.data.status == "0000") {
-           this.menu=response.data.data;
-          } else {
-            this.$message({
-              message: "获取左侧菜单失败",
-              type: "warning"
-            });
-          }
-        });
+  mounted() {
+    this.$axios
+      .post(this.$URL.menu.path, {
+        type: "1"
+      })
+      .then(response => {
+        if (response.data.status == "0000") {
+          this.menu = response.data.data;
+        } else {
+          this.$message({
+            message: "获取左侧菜单失败",
+            type: "warning"
+          });
+        }
+      });
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -158,15 +158,6 @@ export default {
 };
 </script>
 <style scoped>
-.menu_page {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  min-height: 100%;
-  background-color: #f2eada;
-  z-index: 99;
-}
-
 .el-menu {
   border: none;
 }

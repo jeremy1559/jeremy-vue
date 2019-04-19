@@ -138,7 +138,7 @@ export default {
         ],
         account: [
           { required: true, message: "请输入账号", trigger: "blur" },
-          { min: 6, max: 16, message: "长度6-16个字符", trigger: "blur" }
+          { min: 5, max: 16, message: "长度6-16个字符", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
