@@ -9,10 +9,10 @@
         <el-tab-pane label="账号登陆" name="accountLogin">
           <el-form :model="loginUser" :rules="rules" ref="loginForm" class="loginForm">
             <el-form-item prop="account">
-              <el-input v-model="loginUser.account" placeholder="账号"></el-input>
+              <el-input v-model="loginUser.account" placeholder="账号"  @keyup.enter.native="submitForm('loginForm')"></el-input>
             </el-form-item>
             <el-form-item prop="password">
-              <el-input v-model="loginUser.password" placeholder="密码" type="password"></el-input>
+              <el-input v-model="loginUser.password" placeholder="密码" type="password" @keyup.enter.native="submitForm('loginForm')"></el-input>
             </el-form-item>
             <!-- <el-form-item prop="imagecode">
               <el-col :span="16">
@@ -30,12 +30,12 @@
             <el-form-item>
               <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登 录</el-button>
             </el-form-item>
-            <div class="tiparea">
+            <!-- <div class="tiparea">
               <p>
                 还没有账号？现在
                 <router-link to="/register">去注册</router-link>
               </p>
-            </div>
+            </div> -->
           </el-form>
         </el-tab-pane>
 
@@ -47,11 +47,11 @@
             class="loginForm"
           >
             <el-form-item prop="mobile">
-              <el-input v-model="phoneLoginUser.mobile" placeholder="请输入手机号"></el-input>
+              <el-input v-model="phoneLoginUser.mobile" placeholder="请输入手机号"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')"></el-input>
             </el-form-item>
             <el-form-item prop="smscode">
               <el-col :span="16">
-                <el-input v-model="phoneLoginUser.smscode" placeholder="请输入短信验证码" type="password"></el-input>
+                <el-input v-model="phoneLoginUser.smscode" placeholder="请输入短信验证码" type="password"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')" ></el-input>
               </el-col>
               <el-col :span="6">
                 <el-button type="success" @click="sendSms()" class="smsButton">发送短信</el-button>
@@ -64,12 +64,12 @@
                 class="submit_btn"
               >登 录</el-button>
             </el-form-item>
-            <div class="tiparea">
+            <!-- <div class="tiparea">
               <p>
                 还没有账号？现在
                 <router-link to="/register">去注册</router-link>
               </p>
-            </div>
+            </div> -->
           </el-form>
         </el-tab-pane>
       </el-tabs>

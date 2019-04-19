@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     //页面totalTop点击跳转路由
-    toRoute(to, from, next) {
+    toRoute(item) {
       this.$router.push(item.path);
       console.log("to->>>" + item.path);
     }
