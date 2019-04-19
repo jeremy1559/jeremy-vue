@@ -95,7 +95,7 @@ axios.interceptors.request.use(config => {
             });
         }
         //判断accessToken是否将要过期或者已经过期
-        if (isAccessTokenExpired(1000 * 30)) {
+        if (isAccessTokenExpired(1000 * 60 * 3)) {
 
             /*把请求(token)=>{....}都push到一个数组中*/
             let retry = new Promise((resolve, reject) => {
@@ -138,6 +138,17 @@ axios.interceptors.request.use(config => {
                     console.log(refreshSubscribers);
                     refreshSubscribers = [];
 
+                }).catch(e => {
+                    MessageBox.confirm('登陆超时请重新登陆', '登陆提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        //确定
+                        sessionStorage.removeItem("user");
+                        window.location.href = '/login'
+                        return;
+                    });
                 });
 
             }

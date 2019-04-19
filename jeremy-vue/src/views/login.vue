@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <section class="form_container">
+    <div class="form_container">
       <div class="manage_tip">
         <span class="title">登陆系统</span>
       </div>
@@ -47,11 +47,11 @@
             class="loginForm"
           >
             <el-form-item prop="mobile">
-              <el-input v-model="phoneLoginUser.mobile" placeholder="请输入手机号"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')"></el-input>
+              <el-input v-model="phoneLoginUser.mobile" placeholder="手机号"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')"></el-input>
             </el-form-item>
             <el-form-item prop="smscode">
               <el-col :span="16">
-                <el-input v-model="phoneLoginUser.smscode" placeholder="请输入短信验证码" type="password"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')" ></el-input>
+                <el-input v-model="phoneLoginUser.smscode" placeholder="短信验证码" type="password"  @keyup.enter.native="phoneSubmitForm('phoneLoginForm')" ></el-input>
               </el-col>
               <el-col :span="6">
                 <el-button type="success" @click="sendSms()" class="smsButton">发送短信</el-button>
@@ -73,7 +73,7 @@
           </el-form>
         </el-tab-pane>
       </el-tabs>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -263,17 +263,16 @@ export default {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: url(../assets/2.jpg) no-repeat center center;
+  background-image: url(../assets/login_bg.jpg);
   background-size: 100% 100%;
 }
 .form_container {
-  width: 370px;
-  height: 210px;
+  width: 350px;
+  height: 230px;
   position: absolute;
   top: 20%;
-  left: 34%;
+  left: 40%;
   padding: 25px;
-  border-radius: 5px;
   text-align: center;
 }
 .form_container .manage_tip .title {
@@ -286,23 +285,10 @@ export default {
   margin-top: 0px;
   background-color: #fff;
   padding: 20px 20px 20px 20px;
-  border-radius: 5px;
   box-shadow: 0px 5px 10px #cccc;
 }
-
 .submit_btn {
   width: 100%;
-}
-.tiparea {
-  text-align: right;
-  font-size: 12px;
-  color: #333;
-}
-.tiparea p a {
-  color: #409eff;
-}
-.img {
-  margin-left: 20px;
 }
 .smsButton {
   margin-left: 20px;

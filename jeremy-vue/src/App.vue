@@ -12,4 +12,8 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0px auto;
+  padding: 0px;
+}
 </style>
