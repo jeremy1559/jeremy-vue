@@ -25,7 +25,6 @@
 <script>
 import HeadNav from "@/components/menu/HeadNav";
 import LeftMenu from "@/components/menu/LeftMenu";
-import { debug } from "util";
 
 export default {
   name: "index",
@@ -70,8 +69,10 @@ export default {
 <style scoped>
 .index {
   background-color: #f2eada;
+  width: 100%;
+  height: 100%;
 }
-.info{
+.info {
   padding-left: 20px;
   margin: 0px;
   color: rgb(153, 153, 153);
@@ -101,7 +102,7 @@ export default {
   top: 60px;
   left: 180px;
   z-index: 99;
-  width: 100%;
+  width: 95%;
   height: 30px;
   line-height: 30px;
   font-family: Microsoft YaHei;
@@ -113,22 +114,20 @@ export default {
   top: 100px;
   left: 190px;
   z-index: 99;
-  width: 100%;
-  height: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   background-color: white;
-  padding: 10px;
+  padding: 5px;
 }
 .view2 {
   position: fixed;
   top: 70px;
   left: 190px;
   z-index: 99;
-  width: 100%;
-  height: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
   background-color: white;
-  padding: 10px;
+  padding: 5px;
 }
 </style>
 

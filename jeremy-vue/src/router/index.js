@@ -7,6 +7,7 @@ import nofind from '@/views/404.vue'
 import register from '@/views/register.vue'
 import login from '@/views/login.vue'
 import home from '@/views/home/home.vue'
+import setting from '@/views/setting/setting.vue'
 import user from '@/views/setting/user.vue'
 import company from '@/views/setting/company.vue'
 import role from '@/views/setting/role.vue'
@@ -31,8 +32,9 @@ const router = new Router({
         component: home,
       },
       {
-        path: '/user',
+        path: '/setting',
         name: '系统管理',
+        component:setting,
         children: [
           {
             path: '/user',
