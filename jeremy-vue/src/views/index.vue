@@ -10,8 +10,8 @@
 
     <div class="tittle" v-if="fullPath !='/index'">
       <template v-for=" (item, index) in matched">
-        <i v-if="item.path!='/index'" @click="toRoute(item)">
-          <i class="el-icon-arrow-right"></i>
+        <i v-if="item.path!='/index'" @click="toRoute(item)" style="cursor:pointer">
+         <i class="el-icon-caret-right"></i>
           {{item.name}}
         </i>
       </template>
@@ -60,8 +60,11 @@ export default {
   methods: {
     //页面totalTop点击跳转路由
     toRoute(item) {
+      //系统设置不跳转
+      if(item.path=='/setting'){
+         return
+      }
       this.$router.push(item.path);
-      console.log("to->>>" + item.path);
     }
   }
 };
@@ -96,6 +99,7 @@ export default {
   line-height: 30px;
   font-family: Microsoft YaHei;
   background-color: white;
+  padding-left: 10px;
 }
 .view {
   position: fixed;

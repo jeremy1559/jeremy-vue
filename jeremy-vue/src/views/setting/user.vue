@@ -24,16 +24,20 @@
           stripe
           border
           height="100%"
+          style="width: 100%"
           :header-cell-style="{background:'#eef1f6',color:'#606266',textAlign:'center'}"
           :cell-style="{padding:'1.5px',textAlign:'center'}"
         >
-          <el-table-column prop="account" label="账号" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="userName" label="姓名" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="phone" label="联系电话" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="idCard" label="身份证号" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="sex" label="性别" :formatter="formatterSex" show-overflow-tooltip></el-table-column>
-          <el-table-column prop="eMail" label="邮编" show-overflow-tooltip></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column prop="account" label="账号" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="userName" label="姓名" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="phone" label="联系电话" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="idCard" label="身份证号" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="sex" label="性别" :formatter="formatterSex" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="eMail" label="邮编" show-overflow-tooltip width="200"></el-table-column>
+          <el-table-column prop="roles" label="角色" :formatter="formatterRoles" show-overflow-tooltip width="300"></el-table-column>
+          <el-table-column prop="companys" label="隶属部门" :formatter="formatterCompanys" show-overflow-tooltip width="300"></el-table-column>
+
+          <el-table-column label="操作" fixed="right" width="300">
             <template slot-scope="scope">
               <el-button type="text" size="small">编辑</el-button>
               <el-button type="text" size="small">删除</el-button>
@@ -120,6 +124,22 @@ export default {
       if (row.sex == "2") {
         return "女";
       }
+    },
+    //角色格式化
+    formatterRoles(row, column){
+      let roles='';
+      for(let i in row.roles){
+        roles+=row.roles[i].roleName+' , ';
+      }
+      return roles.substr(0,roles.length-3);
+    },
+    //隶属公司格式化
+     formatterCompanys(row, column){
+     let companys='';
+      for(let i in row.companys){
+        companys+=row.companys[i].companyName+' , ';
+      }
+      return companys.substr(0,companys.length-3);;
     }
   }
 };

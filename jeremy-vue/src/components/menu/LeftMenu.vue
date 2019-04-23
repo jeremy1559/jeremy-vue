@@ -147,6 +147,7 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
+      this.activeIndex=key;
       console.log(key, keyPath);
     },
     toRouter(item) {
