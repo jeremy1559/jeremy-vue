@@ -1,5 +1,5 @@
 <template>
-  <div class="index">
+  <div class="root">
     <div class="top">
       <HeadNav></HeadNav>
     </div>
@@ -67,67 +67,56 @@ export default {
 };
 </script>
 <style scoped>
-.index {
-  background-color: #f2eada;
-  width: 100%;
-  height: 100%;
-}
 .info {
   padding-left: 20px;
   margin: 0px;
   color: rgb(153, 153, 153);
-  height: 30px;
 }
 .left {
   position: fixed;
   top: 60px;
-  left: 0;
-  min-height: 100%;
-  width: 180px;
+  height: 100%;
+  width: 10%;
   background-color: #f2eada;
   z-index: 99;
 }
 .top {
-  position: fixed;
-  top: 0px;
-  left: 0px;
   width: 100%;
   z-index: 99;
-  height: 30px;
   background-color: #f2eada;
 }
 
 .tittle {
   position: fixed;
-  top: 60px;
-  left: 180px;
+  top: 61px;
+  left: 10%;
   z-index: 99;
-  width: 95%;
+  width: 100%;
   height: 30px;
   line-height: 30px;
   font-family: Microsoft YaHei;
   background-color: white;
-  padding-left: 10px;
 }
 .view {
   position: fixed;
-  top: 100px;
-  left: 190px;
+  top: 91px;
+  left: 10%;
   z-index: 99;
-  width: 95%;
-  height: 95%;
   background-color: white;
-  padding: 5px;
+  padding: 1px;
+  margin: 5px;
+  width: 90%;
+  height: 88%;
 }
 .view2 {
   position: fixed;
-  top: 70px;
+  top: 60px;
   left: 190px;
   z-index: 99;
-  width: 95%;
-  height: 95%;
   background-color: white;
-  padding: 5px;
+  padding: 1px;
+  width: 90%;
+  height: 88%;
 }
 </style>
 

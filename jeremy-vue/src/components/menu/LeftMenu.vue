@@ -158,28 +158,8 @@ export default {
 };
 </script>
 <style scoped>
-.el-menu {
-  border: none;
-}
-.fa-margin {
-  margin-right: 5px;
-}
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 180px;
-  min-height: 400px;
-}
-.el-menu-vertical-demo {
-  width: 35px;
-}
 .el-submenu .el-menu-item {
-  min-width: 180px;
+  min-width: 100%;
 }
 
-.hiddenDropdown,
-.hiddenDropname {
-  display: none;
-}
-a {
-  text-decoration: none;
-}
 </style>
